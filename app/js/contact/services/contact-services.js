@@ -3,10 +3,10 @@
 angular.module('app').factory('contactService', function ($http, $rootScope, $q) {
     'use strict';
 
-    var _contacts,
+    var _contacts = [],
         _getContacts = function () {
             var deferred = $q.defer();
-            if (_contacts) {
+            if (_contacts.length) {
                 deferred.resolve(_contacts);
             } else {
                 $http.get('data/contacts.json').then(function (response) {
@@ -42,6 +42,11 @@ angular.module('app').factory('contactService', function ($http, $rootScope, $q)
         getContact: function (id) {
             var index = _getContactIndex(id);
             return index >= 0 ? _contacts[index] : undefined;
+        },
+        deleteContact: function (id) {
+            var index = _getContactIndex(id);
+            _contacts.splice(index, 1);
+            $rootScope.$emit("contact-deleted", index);
         }
     };
 

@@ -1,5 +1,5 @@
 /*globals angular, console */
-angular.module("app").controller("ContactListCtrl", function ($scope, $http, contactService) {
+angular.module("app").controller("ContactListCtrl", function ($scope, $http, contactService, $rootScope) {
     'use strict';
     contactService.getContacts().then(function (response) {
         $scope.contacts = response;
@@ -8,6 +8,7 @@ angular.module("app").controller("ContactListCtrl", function ($scope, $http, con
     });
 
     $scope.deleteContact = function (contact) {
-        $scope.contacts.splice($scope.contacts.indexOf(contact), 1);
+        contactService.deleteContact(contact.id);
     };
+
 });
